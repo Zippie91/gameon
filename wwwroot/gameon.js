@@ -1,8 +1,8 @@
 $(document).ready(function() {
-	var match = 1; 
-	
+	var match = 1;
+
 	hideShowMatch(match);
-	
+
 	$("#prev").click(function(e) {
 		e.preventDefault();
 		if (match == 1) {
@@ -12,7 +12,7 @@ $(document).ready(function() {
 			hideShowMatch(match);
 		}
 	});
-	
+
 	$("#next").click(function(e) {
 		e.preventDefault();
 		if (match == $("#matches").children().length) {
