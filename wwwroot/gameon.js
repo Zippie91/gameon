@@ -26,5 +26,5 @@ $(document).ready(function() {
 
 function hideShowMatch(match) {
 	$("#matches").children().hide();
-	$("#match-" + match).show();
+	$("#match-" + match).fadeIn('slow');
 }
