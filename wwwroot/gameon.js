@@ -20,11 +20,7 @@ $(document).ready(function() {
 		console.log( "Serialized Array: " + ser_Array );
 		
 		var json = JSON.stringify(ser_Array);
-<<<<<<< f865b43761abf5416db75c7bd1413d9fb6d12455
-		console.log( "JSONstring: " + json.gamename );
-=======
 		console.log( "JSONstring: " + json );
->>>>>>> clean up NewPlayers and code form NewGame
 		
 		/*
 		$.ajax('newgame.html', {
