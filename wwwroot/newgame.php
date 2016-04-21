@@ -1,10 +1,12 @@
 <?php
-$save_dir = "/games";
-$file_name = "newgame.json";
+echo $_POST["jsondata"];
 
-$myFile = $save_dir . file_name;
-$fh = fopen($myFile, 'w') or die("can't open file");
-$stringData = $_POST["data"];
+$save_dir = "games";
+$file_name = $_POST["gamename"] . ".json";
+$saveFile = $save_dir . '/' . $file_name;
+
+$fh = fopen($saveFile, 'w+') or die("can't open file");
+$stringData = $_POST["jsondata"];
 fwrite($fh, $stringData);
 fclose($fh);
 ?>

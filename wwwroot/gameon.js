@@ -8,39 +8,36 @@ $(document).ready(function() {
 	 *	Build new player input in "New Game Modal" and parse them to a newgame.json file.
 	 *  ---------------------------------------------------------------------------------
 	 */
-	
+
 	var players = NewPlayers();
 	$("#numplay").change(function(){
 		NewPlayers('append', numberplayers);
 	});
-	
+
 	$('#newGame').find('form').on('submit', function(event) {
 		event.preventDefault();
 		var json = $(this).serializeFormJSON();
-		console.log( json );
-		console.log( JSON.stringify($(this).serializeArray()) );
-		
-		/*
-		$.ajax('newgame.php', {
-			type:		'POST',
-			dataType: 	'json',
-			url: 		'newgame.php',
-			data: 		{ data: json },
-			success: 	function(result) {
-				console.log("success: " + result);
-			},
-			failure: 		function() {
-				alert("Error! Try again.");
+		$("#newplayers").find('.playerinput').append('<input type="hidden" id="jsondata" name="jsondata" />');
+		$("#jsondata").val( JSON.stringify( json ));
+
+		$.ajax({
+			type:			'POST',
+			url:			'newgame.php',
+			dataType:	'json',
+			data: 		$(this).serialize(),
+			success:	function(result) {
+				alert(result);
 			}
 		});
-		*/
+
+		$("#jsondata").remove();
 	});
-	
-	/* 
+
+	/*
 	 *	Hide matches and scroll through them
 	 *  ------------------------------------
 	 */
-	 
+
 	var match = 1;
 	HideShowMatch(match);
 
@@ -98,11 +95,11 @@ function NewPlayers(mode = 'new', lastnumplay = 2) {
 
 function BuildInput(n) {
 	var player = "player" + n;
-	
+
 	var input = '<div class="form-group">';
 	input += '<input type="text" class="form-control" name="' + player + '" placeholder="speler ' + n + '" id="' + player + '" required />';
 	input += '</div>';
-	
+
 	return input;
 }
 
