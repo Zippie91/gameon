@@ -16,28 +16,21 @@ $(document).ready(function() {
 	
 	$('#newGame').find('form').on('submit', function(event) {
 		event.preventDefault();
-		var ser_Array = $(this).serializeArray();
-		console.log( "Serialized Array: " + ser_Array );
-		
-		var json = JSON.stringify(ser_Array);
-		console.log( "JSONstring: " + json );
+		var json = $(this).serializeFormJSON();
+		console.log( json );
+		console.log( JSON.stringify($(this).serializeArray()) );
 		
 		/*
-		$.ajax('newgame.html', {
-			type:	'POST',
-			contentType: 'application/json',
-			dataType: 'json',
-			data: form.serialize(),
-			success: function(result) {
-				var msg = $("<p></p>");
-				
-				msg.append("Spelnaam: " + result.gamename);
-				msg.append("Aantal spelers: " + result.numberplayers);				
-				msg.append("Speler 1: " + result.player1);
-				msg.append("Speler 2: " + result.player2);
-				
-				$('#newplayers').remove();
-				form.find('.modal-body').hide().html(msg).fadeIn();
+		$.ajax('newgame.php', {
+			type:		'POST',
+			dataType: 	'json',
+			url: 		'newgame.php',
+			data: 		{ data: json },
+			success: 	function(result) {
+				console.log("success: " + result);
+			},
+			failure: 		function() {
+				alert("Error! Try again.");
 			}
 		});
 		*/
@@ -112,6 +105,25 @@ function BuildInput(n) {
 	
 	return input;
 }
+
+(function ($) {
+    $.fn.serializeFormJSON = function () {
+
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+})(jQuery);
 
 function HideShowMatch(match) {
 	$("#matches").children().hide();
