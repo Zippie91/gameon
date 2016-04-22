@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 	var players = NewPlayers();
 	$("#numplay").change(function(){
-		NewPlayers('append', numberplayers);
+		NewPlayers({mode: 'append', lastnumplay: numberplayers});
 	});
 
 	$('#newGame').find('form').on('submit', function(event) {
@@ -63,28 +63,36 @@ $(document).ready(function() {
 });
 
 // FUNCTIONS
-function NewPlayers(mode = 'new', lastnumplay = 2) {
-	numberplayers = parseInt($("#numplay").val());
-	var playerinput = $("#newplayers").find('.playerinput');
+function NewPlayers(options) {
 
-	if ( mode == 'new' ) {
+	var settings = $.extend({
+		mode: 'new',
+		lastnumplay: 2,
+		playerinput: $("#newplayers").find('.playerinput')
+	}, options);
+
+	console.log(settings.lastnumplay);
+
+	numberplayers = parseInt($("#numplay").val());
+
+	if ( settings.mode == 'new' ) {
 		for( i = 1; i < numberplayers + 1; i++ ) {
 			var input = BuildInput(i);
 
-			playerinput.append(input);
+			settings.playerinput.append(input);
 		}
-	} else if ( mode == 'append' ) {
-		var diff = numberplayers - lastnumplay;
+	} else if ( settings.mode == 'append' ) {
+		var diff = numberplayers - settings.lastnumplay;
 
 		if ( diff > 0 ) {
-			for ( i = lastnumplay + 1; i < numberplayers + 1; i++ ) {
+			for ( i = settings.lastnumplay + 1; i < numberplayers + 1; i++ ) {
 				var input = BuildInput(i);
 
-				playerinput.append(input);
-				playerinput.find("#player" + i).hide().fadeIn('slow');
+				settings.playerinput.append(input);
+				settings.playerinput.find("#player" + i).hide().fadeIn('slow');
 			}
 		} else if ( diff < 0 ) {
-			for ( i = lastnumplay; i > numberplayers; i-- ) {
+			for ( i = settings.lastnumplay; i > numberplayers; i-- ) {
 				$("#player" + i).parent().fadeOut(300, function() {
 					$(this).remove();
 				});
